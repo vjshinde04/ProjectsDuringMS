@@ -28,13 +28,17 @@ def FuncEqual():
     currentNum = d.get()
     secondNum = int(currentNum)
     d.delete(0, tk.END)
-    if operationFlag == 1: 
+    if operationFlag == 1:
         d.insert(0, firstNum + secondNum)
 
 d = tk.Entry(window)
 d.grid(row=0, columnspan=4)
 
-button0 = tk.Button(window, text="0", padx=22, pady=20, bg='black', fg='white', command=lambda: FuncButtonClick(0))
+from tkinter.ttk import *
+buttonStyle = Style()
+buttonStyle.configure('bs', font=('Ariel', 10), background='black', foreground='white')
+
+button0 = tk.Button(window, text="0", padx=22, pady=20, command=lambda: FuncButtonClick(0))
 button0.grid(row=5,column=1)
 button1 = tk.Button(window, text="1", padx=22, pady=20, command=lambda: FuncButtonClick(1))
 button1.grid(row=4,column=0)
