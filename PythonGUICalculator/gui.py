@@ -5,31 +5,60 @@ window = tk.Tk()
 
 # greeting = tk.Label(text="Welcome to Calculator")
 # greeting.pack()
-global operationFlag
-global firstNum
-global secondNum
+firstNum = 0
+secondNum = 0
 operationFlag = 0
+#1: add
+#2: sub
+#3: mul
+#4: div
+#5: perc
 
 def FuncButtonClick(number):
     current = d.get()
     d.delete(0, tk.END)
     d.insert(0, str(current) + str(number))
 
-def FuncClear():
+def FuncAllClear():
     d.delete(0, tk.END)
 
-def FuncAdd():
-    num = d.get()
-    firstNum = int(num)
+def FuncClear():
+    current = d.get()
     d.delete(0, tk.END)
-    operationFlag = 1
+    d.insert(0, str(current[:-1]))
+
+def FuncOperation(opFlag):
+    num = d.get()
+    global firstNum
+    firstNum = num
+    d.delete(0, tk.END)
+    global operationFlag
+    operationFlag = opFlag
 
 def FuncEqual():
     currentNum = d.get()
-    secondNum = int(currentNum)
+    global firstNum, secondNum
+    ans = 0
+    secondNum = currentNum
     d.delete(0, tk.END)
     if operationFlag == 1:
-        d.insert(0, firstNum + secondNum)
+        ans = float(firstNum) + float(secondNum)
+    elif operationFlag == 2:
+        ans = float(firstNum) - float(secondNum)
+    elif operationFlag == 3:
+        ans = float(firstNum) * float(secondNum)
+    elif operationFlag == 4:
+        ans = float(firstNum) / float(secondNum)
+    # elif operationFlag == 5:
+    #     ans = float(secondNum) / 100
+    #     d.insert(0, ans)
+
+    if ans.is_integer() is True:
+        d.insert(0, int(ans))
+    else:
+        d.insert(0, ans)
+    firstNum = str(ans)
+    secondNum = 0
 
 d = tk.Entry(window)
 d.grid(row=0, columnspan=4)
@@ -66,20 +95,20 @@ buttonSciSwitch.grid(row=5,column=0)
 
 buttonEqual = tk.Button(window, text="=", padx=19.5, pady=20, command=FuncEqual)
 buttonEqual.grid(row=5,column=3)
-buttonAdd = tk.Button(window, text="+", padx=21, pady=20, command=FuncAdd)
+buttonAdd = tk.Button(window, text="+", padx=21, pady=20, command=lambda: FuncOperation(1))
 buttonAdd.grid(row=4,column=3)
-buttonSub = tk.Button(window, text="-", padx=22, pady=20)
+buttonSub = tk.Button(window, text="-", padx=22, pady=20, command=lambda: FuncOperation(2))
 buttonSub.grid(row=3,column=3)
-buttonMul = tk.Button(window, text="x", padx=22, pady=20)
+buttonMul = tk.Button(window, text="x", padx=22, pady=20, command=lambda: FuncOperation(3))
 buttonMul.grid(row=2,column=3)
-buttonDiv = tk.Button(window, text="/", padx=22, pady=20)
+buttonDiv = tk.Button(window, text="/", padx=22, pady=20, command=lambda: FuncOperation(4))
 buttonDiv.grid(row=1,column=3)
 
-buttonPercent = tk.Button(window, text="%", padx=20, pady=20)
+buttonPercent = tk.Button(window, text="%", padx=20, pady=20, command=lambda: FuncOperation(5))
 buttonPercent.grid(row=1,column=2)
 buttonClear = tk.Button(window, text="<", padx=21, pady=20, command=FuncClear)
 buttonClear.grid(row=1,column=1)
-buttonAllClear = tk.Button(window, text="AC", padx=18, pady=20)
+buttonAllClear = tk.Button(window, text="AC", padx=18, pady=20, command=FuncAllClear)
 buttonAllClear.grid(row=1,column=0)
 
 
